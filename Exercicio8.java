@@ -1,59 +1,65 @@
 public class Exercicio8{
-class No {
+
+    static class No {
     int valor;
     No esquerda, direita;
 
-    public No(int item) {
-        this.valor = item;
+    public No(int valor) {
+        this.valor = valor;
         esquerda = direita = null;
     }
 }
-private No raiz;
 
-public Exercicio8(){
-    raiz = null;
-}
-    public void inserir(int valor) {
-        raiz = inserirRecursivo(raiz, valor);
-    }
-    private No inserirRecursivo(No raiz, int valor) {
-        if (raiz == null) {
-            raiz = new No(valor);
-            return raiz;
-        }
-        if (valor < raiz.valor){
-            raiz.esquerda = inserirRecursivo(raiz.esquerda, valor);
-        }else if (valor > raiz.valor){
-            raiz.direita = inserirRecursivo(raiz.direita, valor);
-        }
-        return raiz;            
-    }
+static class ArvoreBinariaDeBusca {
+    No raiz;
 
+    public ArvoreBinariaDeBusca() {
+        raiz = null;
+    }
+    public void adicionar(int valor) {
+        raiz = adicionarRecursivo(raiz, valor);
+    }
+    private No adicionarRecursivo(No atual, int valor) {
+        if (atual == null) {
+            return new No(valor);
+        }
+
+        if (valor < atual.valor) {
+            atual.esquerda = adicionarRecursivo(atual.esquerda, valor);
+        } else if (valor > atual.valor) {
+            atual.direita = adicionarRecursivo(atual.direita, valor);
+        }
+
+        return atual;
+    }
     public int encontrarMenorValor() {
+        if (raiz == null) {
+            throw new IllegalStateException("A árvore está vazia.");
+        }
         return encontrarMenorValorRecursivo(raiz);
     }
-
-    private int encontrarMenorValorRecursivo(No raiz) {
-
-        if (raiz.esquerda == null){
-            return raiz.valor;
-        }else {
-            return encontrarMenorValorRecursivo(raiz.esquerda);
-        }    
+    private int encontrarMenorValorRecursivo(No atual) {
+        if (atual.esquerda == null) {
+            return atual.valor;
+        } else {
+            return encontrarMenorValorRecursivo(atual.esquerda);
+        }
     }
+
     public static void main(String[] args) {
-        Exercicio8 arvore = new Exercicio8();
+     
+        ArvoreBinariaDeBusca arvore = new ArvoreBinariaDeBusca();
 
-        arvore.inserir(22);
-        arvore.inserir(15);
-        arvore.inserir(32);
-        arvore.inserir(18);
-        arvore.inserir(12);
-        arvore.inserir(26);
+        arvore.adicionar(52);
+        arvore.adicionar(15);
+        arvore.adicionar(20);
+        arvore.adicionar(10);
+        arvore.adicionar(65);
+        arvore.adicionar(35);
+        arvore.adicionar(22);
 
-        int menorValor = arvore.encontrarMenorValor();
-        System.out.println("O menor valor na árvore binária de busca é: " + menorValor);
+        System.out.println("O menor valor na árvore é: " + arvore.encontrarMenorValor());
     }
+}
+
 }    
-
-
