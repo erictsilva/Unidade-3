@@ -10,7 +10,6 @@ class No {
 class ArvoreBinaria {
     No raiz;
 
-    // Construtor para inicializar a árvore vazia
     public ArvoreBinaria() {
         raiz = null;
     }
