@@ -1,44 +1,47 @@
-class TreeNode {
-    int valor;
-    TreeNode esquerda, direta;
-
-    public TreeNode(int valor) {
-        this.valor = valor;
-        esquerda = direta = null;
-    }
-}
-
 public class Exercicio2 {
-    public boolean isBST(TreeNode root) {
-        return isBSTUtil(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    static class No {
+    int valor;
+    No esquerda, direita;
+
+        public No(int valor) {
+            this.valor = valor;
+            esquerda = direita = null;
+        }
+    }
+    private No raiz;
+
+    public boolean verificaBST() {
+        return eBSTUtil(raiz, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
-    private boolean isBSTUtil(TreeNode node, long min, long max) {
-        if (node == null) {
+    private boolean eBSTUtil(No no, int valorMinimo, int valorMaximo) {
+        if (no == null) {
             return true;
         }
-        if (node.valor <= min || node.valor >= max) {
+
+        if (no.valor < valorMinimo || no.valor > valorMaximo) {
             return false;
         }
-        return isBSTUtil(node.esquerda, min, node.valor) &&
-               isBSTUtil(node.direta, node.valor, max);
+
+        return (eBSTUtil(no.esquerda, valorMinimo, no.valor - 1) &&
+                eBSTUtil(no.direita, no.valor + 1, valorMaximo));
     }
 
     public static void main(String[] args) {
         Exercicio2 arvore = new Exercicio2();
-        
-        TreeNode root = new TreeNode(1);
-        root.esquerda = new TreeNode(5);
-        root.direta = new TreeNode(2);
-        root.esquerda.esquerda = new TreeNode(30);
-        root.esquerda.direta = new TreeNode(6);
-        root.direta.esquerda = new TreeNode(15);
-        root.direta.direta = new TreeNode(25);
 
-        if (arvore.isBST(root)) {
-            System.out.println("A árvore é uma BST.");
+        boolean ehBST = arvore.verificaBST();
+
+        arvore.raiz = new No(3);
+        arvore.raiz.esquerda = new No(5);
+        arvore.raiz.direita = new No(2);
+        arvore.raiz.esquerda.esquerda = new No(7);
+        arvore.raiz.esquerda.direita = new No(1);
+
+        if (ehBST) {
+            System.out.println("A árvore é uma Árvore Binária de Busca (BST).");
         } else {
-            System.out.println("A árvore NÃO é uma BST.");
+            System.out.println("A árvore não é uma Árvore Binária de Busca (BST).");
         }
     }
 }
