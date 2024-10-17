@@ -1,4 +1,6 @@
-class No {
+public class Exercicio1 {
+
+    static class No {
     int valor;
     No esquerda, direita;
 
@@ -7,17 +9,15 @@ class No {
         esquerda = direita = null;
     }
 }
-class ArvoreBinaria {
+    static class ArvoreBinaria {
     No raiz;
 
     public ArvoreBinaria() {
         raiz = null;
     }
-
     public void inserir(int valor) {
         raiz = inserirRecursivo(raiz, valor);
     }
-
     private No inserirRecursivo(No raiz, int valor) {
         if (raiz == null) {
             raiz = new No(valor);
@@ -30,8 +30,6 @@ class ArvoreBinaria {
         }
         return raiz;
     }
-
-    // Percurso em ordem (in-order traversal)
     public void emOrdem() {
         emOrdemRecursivo(raiz);
     }
@@ -43,7 +41,6 @@ class ArvoreBinaria {
             emOrdemRecursivo(raiz.direita);
         }
     }
-
     public void preOrdem() {
         preOrdemRecursivo(raiz);
     }
@@ -55,7 +52,6 @@ class ArvoreBinaria {
             preOrdemRecursivo(raiz.direita);
         }
     }
-
     public void posOrdem() {
         posOrdemRecursivo(raiz);
     }
@@ -67,18 +63,21 @@ class ArvoreBinaria {
             System.out.print(raiz.valor + " ");
         }
     }
+    public boolean eBST() {
+  
+        throw new UnsupportedOperationException("Unimplemented method 'eBST'");
+    }
 }
 
-public class Exercicio1 {
     public static void main(String[] args) {
         ArvoreBinaria arvore = new ArvoreBinaria();
-        
-        arvore.inserir(50);
-        arvore.inserir(30);
+
         arvore.inserir(20);
-        arvore.inserir(40);
-        arvore.inserir(70);
-        arvore.inserir(60);
+        arvore.inserir(33);
+        arvore.inserir(15);
+        arvore.inserir(12);
+        arvore.inserir(68);
+        arvore.inserir(75);
         arvore.inserir(80);
 
         System.out.println("Percurso em Ordem:");
@@ -94,3 +93,6 @@ public class Exercicio1 {
         System.out.println();
     }
 }
+
+
+
