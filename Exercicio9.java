@@ -1,10 +1,12 @@
 import java.util.*;
 
-class Grafo {
+public class Exercicio9{
+
+    static class Grafo {
     private int numVertices; 
     private LinkedList<Adjacente>[] adjList; 
 
-    class Adjacente {
+    static class Adjacente {
         int vertice;
         int peso;
         public Adjacente(int vertice, int peso) {
@@ -19,9 +21,9 @@ class Grafo {
             adjList[i] = new LinkedList<>();
         }
     }
-    public void addAresta(int u, int v, int peso) {
-        adjList[u].add(new Adjacente(v, peso));
-        adjList[v].add(new Adjacente(u, peso)); 
+    public void addAresta(int origem, int destino, int peso) {
+        adjList[origem].add(new Adjacente(destino, peso));
+        adjList[destino].add(new Adjacente(origem, peso)); 
     }
     public void dijkstra(int origem, int destino) {
         int[] dist = new int[numVertices]; 
@@ -41,12 +43,12 @@ class Grafo {
             if (u == destino) {
                 break;
             }
-            for (Adjacente vizinho : adjList[u]) {
+            for (Adjacente vizinho : adjList[origem]) {
                 int v = vizinho.vertice;
                 int pesoAresta = vizinho.peso;
 
-                if (dist[u] + pesoAresta < dist[v]) {
-                    dist[v] = dist[u] + pesoAresta;
+                if (dist[origem] + pesoAresta < dist[destino]) {
+                    dist[destino] = dist[origem] + pesoAresta;
                     anterior[v] = u; 
                     filaPrioridade.add(new Adjacente(v, dist[v]));
                 }
@@ -85,7 +87,9 @@ class Grafo {
         int origem = 0;  
         int destino = 5; 
 
-        System.out.println("Encontrando o caminho mais curto: ");
+        System.out.println("Encontrando o caminho mais curto... ");
         grafo.dijkstra(origem, destino); 
     }
 }
+}
+
