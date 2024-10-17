@@ -1,65 +1,62 @@
 import java.util.*;
 
-class Grafo {
-    private int numVertices; 
-    private LinkedList<Integer>[] adjList; 
+public class Exercicio10{    
 
-    public Grafo(int numVertices) {
-        this.numVertices = numVertices;
-        adjList = new LinkedList[numVertices];
-        for (int i = 0; i < numVertices; i++) {
-            adjList[i] = new LinkedList<>();
+static class Grafo {
+    private int vertices;  
+    private List<List<Integer>> listaAdj;  
+
+    public Grafo(int vertices) {
+        this.vertices = vertices;
+        listaAdj = new ArrayList<>(vertices);
+
+        for (int i = 0; i < vertices; i++) {
+            listaAdj.add(new ArrayList<>());
         }
     }
-    public void addAresta(int v, int w) {
-        adjList[v].add(w); 
+    public void adicionarAresta(int origem, int destino) {
+        listaAdj.get(origem).add(destino);
     }
+    private void ordenarTopologicoDFS(int vertice, boolean[] visitado, Stack<Integer> pilha) {
+        visitado[vertice] = true;
+
+        for (Integer vizinho : listaAdj.get(vertice)) {
+            if (!visitado[vizinho]) {
+                ordenarTopologicoDFS(vizinho, visitado, pilha);
+            }
+        }
+        pilha.push(vertice);
+    }
+
     public void ordenacaoTopologica() {
-        int[] grauEntrada = new int[numVertices]; 
-        LinkedList<Integer> ordenacao = new LinkedList<>(); 
-        Queue<Integer> fila = new LinkedList<>(); 
+        Stack<Integer> pilha = new Stack<>();
 
-        for (int i = 0; i < numVertices; i++) {
-            for (int adj : adjList[i]) {
-                grauEntrada[adj]++;
+        boolean[] visitado = new boolean[vertices];
+
+        for (int i = 0; i < vertices; i++) {
+            if (!visitado[i]) {
+                ordenarTopologicoDFS(i, visitado, pilha);
             }
         }
-        for (int i = 0; i < numVertices; i++) {
-            if (grauEntrada[i] == 0) {
-                fila.add(i);
-            }
-        }
-        while (!fila.isEmpty()) {
-            int v = fila.poll(); 
-            ordenacao.add(v);    
-            for (int adj : adjList[v]) {
-                grauEntrada[adj]--;
-                if (grauEntrada[adj] == 0) {
-                    fila.add(adj);
-                }
-            }
-        }
-        if (ordenacao.size() != numVertices) {
-            System.out.println("O grafo contém um ciclo, então não é possível realizar a ordenação topológica.");
-        } else {
-            System.out.println("Ordenação Topológica dos vértices:");
-            for (int v : ordenacao) {
-                System.out.print(v + " ");
-            }
+
+        System.out.println("Ordenação Topológica:");
+        while (!pilha.isEmpty()) {
+            System.out.print(pilha.pop() + " ");
         }
     }
 
     public static void main(String[] args) {
         Grafo grafo = new Grafo(6);
 
-        grafo.addAresta(5, 2);
-        grafo.addAresta(5, 0);
-        grafo.addAresta(4, 0);
-        grafo.addAresta(4, 1);
-        grafo.addAresta(2, 3);
-        grafo.addAresta(3, 1);
+        grafo.adicionarAresta(5, 2);
+        grafo.adicionarAresta(5, 0);
+        grafo.adicionarAresta(4, 0);
+        grafo.adicionarAresta(4, 1);
+        grafo.adicionarAresta(2, 3);
+        grafo.adicionarAresta(3, 1);
 
-        System.out.println("A ordenação topológica é:");
         grafo.ordenacaoTopologica();
     }
+}
+
 }
