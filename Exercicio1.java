@@ -1,89 +1,97 @@
 class No {
     int valor;
-    No esquerda;
-    No direita;
+    No esquerda, direita;
 
-    public No(int valor) {
-        this.valor = valor;
+    public No(int item) {
+        valor = item;
         esquerda = direita = null;
+    }
+}
+class ArvoreBinaria {
+    No raiz;
+
+    // Construtor para inicializar a árvore vazia
+    public ArvoreBinaria() {
+        raiz = null;
+    }
+
+    public void inserir(int valor) {
+        raiz = inserirRecursivo(raiz, valor);
+    }
+
+    private No inserirRecursivo(No raiz, int valor) {
+        if (raiz == null) {
+            raiz = new No(valor);
+            return raiz;
+        }
+        if (valor < raiz.valor) {
+            raiz.esquerda = inserirRecursivo(raiz.esquerda, valor);
+        } else if (valor > raiz.valor) {
+            raiz.direita = inserirRecursivo(raiz.direita, valor);
+        }
+        return raiz;
+    }
+
+    // Percurso em ordem (in-order traversal)
+    public void emOrdem() {
+        emOrdemRecursivo(raiz);
+    }
+
+    private void emOrdemRecursivo(No raiz) {
+        if (raiz != null) {
+            emOrdemRecursivo(raiz.esquerda);
+            System.out.print(raiz.valor + " ");
+            emOrdemRecursivo(raiz.direita);
+        }
+    }
+
+    public void preOrdem() {
+        preOrdemRecursivo(raiz);
+    }
+
+    private void preOrdemRecursivo(No raiz) {
+        if (raiz != null) {
+            System.out.print(raiz.valor + " ");
+            preOrdemRecursivo(raiz.esquerda);
+            preOrdemRecursivo(raiz.direita);
+        }
+    }
+
+    public void posOrdem() {
+        posOrdemRecursivo(raiz);
+    }
+
+    private void posOrdemRecursivo(No raiz) {
+        if (raiz != null) {
+            posOrdemRecursivo(raiz.esquerda);
+            posOrdemRecursivo(raiz.direita);
+            System.out.print(raiz.valor + " ");
+        }
     }
 }
 
 public class Exercicio1 {
-    No root;
-    public Exercicio1() {
-        root = null;
-    }
-
-    public void insert(int value) {
-        root = insertRec(root, value);
-    }
-
-    private No insertRec(No root, int value) {
-        if (root == null) {
-            root = new No(value);
-            return root;
-        }
-        if (value < root.valor) {
-            root.esquerda = insertRec(root.esquerda, value);
-        } else if (value > root.valor) {
-            root.direita = insertRec(root.direita, value);
-        }
-
-        return root;
-    }
-
-    public void preOrderTraversal() {
-        preOrderRec(root);
-        System.out.println(); 
-    }
-    private void preOrderRec(No root) {
-        if (root != null) {
-            System.out.print(root.valor + " ");
-            preOrderRec(root.esquerda);
-            preOrderRec(root.direita);
-        }
-    }
-    public void inOrderTraversal() {
-        inOrderRec(root);
-        System.out.println(); 
-    }
-    private void inOrderRec(No root) {
-        if (root != null) {
-            inOrderRec(root.esquerda);
-            System.out.print(root.valor + " ");
-            inOrderRec(root.direita);
-        }
-    }
-    public void postOrderTraversal() {
-        postOrderRec(root);
-        System.out.println(); 
-    }
-    private void postOrderRec(No root) {
-        if (root != null) {
-            postOrderRec(root.esquerda);
-            postOrderRec(root.direita);
-            System.out.print(root.valor + " ");
-        }
-    }
     public static void main(String[] args) {
-        Exercicio1 arvore = new Exercicio1();
+        ArvoreBinaria arvore = new ArvoreBinaria();
+        
+        arvore.inserir(50);
+        arvore.inserir(30);
+        arvore.inserir(20);
+        arvore.inserir(40);
+        arvore.inserir(70);
+        arvore.inserir(60);
+        arvore.inserir(80);
 
-        arvore.insert(15);
-        arvore.insert(25);
-        arvore.insert(12);
-        arvore.insert(30);
-        arvore.insert(32);
-        arvore.insert(57);
-        arvore.insert(62);
+        System.out.println("Percurso em Ordem:");
+        arvore.emOrdem();
+        System.out.println();
 
-        System.out.println("Percurso Pré-Ordem:");
-        arvore.preOrderTraversal();
+        System.out.println("Percurso em Pré-Ordem:");
+        arvore.preOrdem();
+        System.out.println();
 
-        System.out.println("Percurso Em-Ordem:");
-        arvore.inOrderTraversal();
-
-        System.out.println("Percurso Pós-Ordem:");
-        arvore.postOrderTraversal();
+        System.out.println("Percurso em Pós-Ordem:");
+        arvore.posOrdem();
+        System.out.println();
     }
 }
